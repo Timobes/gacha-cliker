@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/style.css">
+    <title>Home</title>
+</head>
+    <body>
+        <header class="header">
+            <div class="menu"><a href="index.html">Menu</a></div>
+
+            <ul class="list">
+                <li class="list-item"><a href="inventory.html">Inventory</a></li>
+                <li class="list-item"><a href="technologies.html">Technologies</a></li>
+                <li class="list-item"><a href="#">Market</a></li>
+                <li class="list-item"><a href="#">Profile</a></li>
+            </ul>
+        </header>
+
+        <main class="main">
+            <div class="amount-click">Кол-во кликов:
+                <span id="amount-click-num"></span>
+            </div>
+
+            <div class="main-btn" id="main-btn" onclick="mainClick()"></div>
+
+            <audio  autoplay loop>
+                <source src="../sound/MALINOVAYA_LADA.mp3" type="audio/mp3"/>
+            </audio>
+
+            <div class="amount-press">1 нажатие = 
+                <span id="amount-press-num"></span>
+                клик
+            </div>
+
+            <div class="amount-autoclick">1 sec = 
+                <span id="amount-autoclick-num"></span>
+                клик
+            </div>
+
+            <div class="buy-item" id="buy-item" onclick="buyBtn()">Купить <span id="buy-item-num"></span> нажатия. Цена <span id="buy-item-price"></span> кликов</div>
+
+            <div class="del-all-progress" id="del-all-progress" onclick="delAllProgress()">Удалить весь прогресс</div>
+
+            <div class="warn-msg" id="warn-msg"></div>
+        </main>
+
+        <script src="../script/script.js"></script>
+    </body>
+</html>

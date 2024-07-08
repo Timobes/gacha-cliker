@@ -1,0 +1,49 @@
+.banner {
+    width: 1200px;
+    height: 200px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    border-radius: 25px;
+
+    background-color: #909090;
+}
+
+.banner-text {
+
+}
+
+.banner-name {
+
+}
+
+.banner-amount {
+
+}
+
+.b-banner-btn {
+    display: flex;
+    flex-direction: row;
+
+    column-gap: 130px;
+}
+
+.banner-btn-x1, .banner-btn-x10 {
+    padding: 30px;
+
+    border-radius: 25px;
+    color: #fff;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #000;
+}
+
+.banner-btn-x1, .banner-btn-x10:hover {
+    cursor: pointer;
+}

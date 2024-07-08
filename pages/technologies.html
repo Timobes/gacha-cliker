@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/style.css">
+    <title>Home</title>
+</head>
+    <body>
+        <header class="header">
+            <div class="menu"><a href="index.html">Menu</a></div>
+
+            <ul class="list">
+                <li class="list-item"><a href="inventory.html">Inventory</a></li>
+                <li class="list-item"><a href="#">Technologies</a></li>
+                <li class="list-item"><a href="#">Market</a></li>
+                <li class="list-item"><a href="#">Profile</a></li>
+            </ul>
+        </header>
+        <div class="b-pop-up close" id="b-pop-up">
+            <div class="pop-up">
+                <p class="item-name"><span id="item-name"></span></p>
+                <p class="item-rarity"><span id="item-rarity"></span> звёзд</p>
+                <p class="item-action">+<span id="item-action"></span> к клику / автоклику</p>
+                <button class="item-next" onclick="itemNext()">Продолжить</button>
+            </div>
+        </div>
+        <main class="main" id="banner-main">
+            <div class="banner">
+                <div class="banner-text">
+                    <p class="banner-name">Крутки новичка</p>
+                    <div class="banner-amount">Откручено <span id="banner-amount"></span> из 50</div>
+                </div>
+                
+                <div class="b-banner-btn">
+                    <div class="banner-btn-x1" id="banner-btn-x1" onclick="onX1()">Крутить x1 (10 кликов)</div>
+                    <div class="banner-btn-x10" id="banner-btn-x10" onclick="onX10()">Крутить x10 (100 кликов)</div>
+                </div>
+            </div>
+        </main>
+
+        <script src="../script/script.js"></script>
+    </body>
+</html>
