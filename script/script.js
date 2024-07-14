@@ -3,7 +3,7 @@ let clickAmountText = document.getElementById('amount-click-num')
 let pressAmountText = document.getElementById('amount-press-num')
 let buyBtnAmountText = document.getElementById('buy-item-num')
 let buyItemPriceText = document.getElementById('buy-item-price')
-let bannerAmountText = document.getElementById('banner-amount')
+let bannerBeginnerAmountText = document.getElementById('banner-amount')
 
 let banner = document.getElementById('banner-main')
 
@@ -13,24 +13,28 @@ let popUp = document.getElementById('b-pop-up')
 let itemNameText = document.getElementById('item-name') 
 let itemRarityText = document.getElementById('item-rarity') 
 let itemActionText = document.getElementById('item-action') 
+// let autoClickAmount = document.getElementById('amount-autoclick-num')
 
 // banner
 let x1 = document.getElementById('banner-btn-x1') 
 let x10 = document.getElementById('banner-btn-x10')
+
+let bannerBeginnerAmount = 0 // Кол-во открученных 
+// let chanceBeginnerAmount = 0 // Шанс выбить 5 звёзд (0 - 100%) 
 
 // Inventory
 let inventory = document.getElementById('inventory') 
 
 // Warn
 let warnMsg = document.getElementById('warn-msg')
-// let autoClickAmount = document.getElementById('amount-autoclick-num')
+
+// auto
 
 let buyItemAmount = 1 // Кол-во Доп нажатия
 let clickAmount = 0 //Кол-во кликов
 let nowPress = 1 //Сколько Кликов за одно надатие
 let itemPrice = 1 // Цена доп нажатия
-
-let bannerAmount = 0 // Кол-во открученных 
+let autoClickAmount = 1
 
 let inv = []
 
@@ -42,7 +46,13 @@ class Obj {
     }
 }
 
-let microwave = new Obj('microwave', 5, 100)
+let tv = new Obj('tv', 5, 100)
+let microwave = new Obj('microwave', 5, 80)
+let refrigerator = new Obj('refrigerator', 4, 60)
+let laptop = new Obj('laptop', 3, 40)
+let conditioner = new Obj('conditioner', 2, 20)
+
+let masBeginner = [tv, microwave, refrigerator, laptop, conditioner]
 
 // inv.push(microwave)
 
@@ -54,11 +64,11 @@ document.addEventListener('DOMContentLoaded', function () {
         nowPress = parseInt(localStorage.getItem('nowPress')) || 1
         buyItemAmount = parseInt(localStorage.getItem('buyItemAmount')) || 1
         itemPrice = parseInt(localStorage.getItem('itemPrice')) || 1
-        bannerAmount = parseInt(localStorage.getItem('bannerAmount')) || 0
+        bannerBeginnerAmount = parseInt(localStorage.getItem('bannerBeginnerAmount')) || 0
         inv = JSON.parse(localStorage.getItem('inv')) || []
 
-        if (bannerAmountText) {
-            bannerAmountText.innerText = bannerAmount
+        if (bannerBeginnerAmountText) {
+            bannerBeginnerAmountText.innerText = bannerBeginnerAmount
         }
 
         if (clickAmountText) {
@@ -66,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
             pressAmountText.innerText = nowPress
             buyBtnAmountText.innerText = buyItemAmount
             buyItemPriceText.innerText = itemPrice
+            autoClick()
         }
 
         if(inventory) {
@@ -80,7 +91,7 @@ function saveAllitem() {
     localStorage.setItem('clickAmount', clickAmount);
     localStorage.setItem('nowPress', nowPress);
     localStorage.setItem('itemPrice', itemPrice);
-    localStorage.setItem('bannerAmount', bannerAmount)
+    localStorage.setItem('bannerBeginnerAmount', bannerBeginnerAmount)
     localStorage.setItem('inv', JSON.stringify(inv));
 }
 
@@ -96,22 +107,28 @@ function mainClick() {
 
 function onX1() {
     if (clickAmount >= 10) {
-        clickAmount -= 10
+        warnMsg.innerText = ''
 
-        // let item = masX1(random(100))
-        let item = microwave
-        console.log(item)
+        clickAmount -= 10
         
-        console.log(typeof(inv))
+        let item;
+
+        console.log(masBeginner.map(obj => obj.rarity))
+
+        if (bannerBeginnerAmount < 50) {
+            item = masBeginner[Math.floor(Math.random() * masBeginner.length )]
+        }
+
+        if (item.rarity == 5) {
+            bannerBeginnerAmount = 0
+        }
+
         inv.push(item)
 
         nowPress += item.action
 
-        console.log('inv = ',inv)
-
-        bannerAmount += 1
-        bannerAmountText.innerText = bannerAmount
-        console.log('x1 input')
+        bannerBeginnerAmount += 1
+        bannerBeginnerAmountText.innerText = bannerBeginnerAmount
 
         popUp.classList.remove('close')
         banner.classList.add('close')
@@ -122,7 +139,7 @@ function onX1() {
 
         saveAllitem()
     } else {
-
+        warnMsg.innerText = "Нехватка кликов!"
     }
 }
 
@@ -136,6 +153,19 @@ function onX10() {
     } else {
 
     }
+}
+
+function autoClick() {
+    console.log('auto click active!')
+    setInterval(function () {
+        clickAmount += autoClickAmount
+        console.log('auto')
+        console.log(clickAmount)
+        clickAmountText.innerText = clickAmount
+        saveAllitem()
+
+    }, 1000)
+
 }
 
 function itemNext() {
@@ -182,12 +212,12 @@ function buyBtn() {
 }
 
 function delAllProgress() {
-    let q = confirm('Вы уверены?')
+    // let q = confirm('Вы уверены?')
 
-    if (q == true) {
+    // if (q == true) {
         localStorage.clear()
         location.reload()
-    }
+    // }
 }
 
 document.addEventListener('click', function() {
