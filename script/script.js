@@ -3,9 +3,10 @@ let clickAmountText = document.getElementById('amount-click-num')
 let pressAmountText = document.getElementById('amount-press-num')
 let buyBtnAmountText = document.getElementById('buy-item-num')
 let buyItemPriceText = document.getElementById('buy-item-price')
-let bannerBeginnerAmountText = document.getElementById('banner-amount')
 
+// Banner
 let banner = document.getElementById('banner-main')
+let bannerBeginnerAmountText = document.getElementById('banner-amount')
 
 // banner pop up 
 let popUp = document.getElementById('b-pop-up')
@@ -28,35 +29,59 @@ let inventory = document.getElementById('inventory')
 // Warn
 let warnMsg = document.getElementById('warn-msg')
 
-// auto
-
+// Click
 let buyItemAmount = 1 // Кол-во Доп нажатия
 let clickAmount = 0 //Кол-во кликов
 let nowPress = 1 //Сколько Кликов за одно надатие
 let itemPrice = 1 // Цена доп нажатия
+
+// Auto click
 let autoClickAmount = 1
 
+// User inventory
 let inv = []
 
+// Init Class game object
 class Obj {
-    constructor (name, rarity, action) {
+    constructor (name, rarity, action, text) {
         this.name = name // название 
         this.rarity = rarity // редкость от 1 - 5
         this.action = action // действие, +n к клику, либо +n к авто клику 
+        this.text = text // текст, +n к клику, либо +n к авто клику
     }
+
+    // actions() {
+    //     // this.action = `${this.action}`
+    //     this.action = 'hahah'
+    // }
+
+    // set actions(x) {
+    //     this.action = x 
+    // }
+
 }
 
-let tv = new Obj('tv', 5, 100)
-let microwave = new Obj('microwave', 5, 80)
-let refrigerator = new Obj('refrigerator', 4, 60)
-let laptop = new Obj('laptop', 3, 40)
-let conditioner = new Obj('conditioner', 2, 20)
+// Init obj
+// let tv = new Obj('tv', 5, 100, )
+// let microwave = new Obj('microwave', 5, 80)
+// let refrigerator = new Obj('refrigerator', 4, 60)
+// let laptop = new Obj('laptop', 3, 40)
+// let conditioner = new Obj('conditioner', 2, 20)
 
-let masBeginner = [tv, microwave, refrigerator, laptop, conditioner]
+function nowPressPlus(x) {
+    return nowPress += x
+}
+
+
+let testObj = new Obj('test obj', 5, nowPressPlus(20), '20 к клику')
+
+// Создание массива со всеми объектами 
+
+// let masBeginner = [tv, microwave, refrigerator, laptop, conditioner]
+let masBeginner = [testObj]
+
 
 // inv.push(microwave)
-
-// console.log('microwawe = ',microwave)
 
 document.addEventListener('DOMContentLoaded', function () {
     if (localStorage) {
@@ -105,37 +130,50 @@ function mainClick() {
     saveAllitem()
 }
 
-function onX1() {
-    if (clickAmount >= 10) {
+function clickOnXBtn(count, amount, bannerAmount, mas, bannerAmountText) {
+    // Count сколько круток за раз
+    // Amount - Сколько вычесть
+    // bannerAmount - счётчик круток n баннера
+    // mas - из какого массива  взять предметы
+    // bannerAmountText - кол-во сделанных круток в виде текста 
+
+    if (clickAmount >= amount) {
         warnMsg.innerText = ''
 
-        clickAmount -= 10
+        clickAmount -= amount
         
         let item;
 
-        console.log(masBeginner.map(obj => obj.rarity))
+        for (let i = 0; i < count; i++) {
 
-        if (bannerBeginnerAmount < 50) {
-            item = masBeginner[Math.floor(Math.random() * masBeginner.length )]
+            itemNext()
+
+            if (bannerAmount < 50) {
+                item = mas[Math.floor(Math.random() * mas.length )]
+            }
+    
+            if (item.rarity == 5) {
+                bannerAmount = 0
+            }
+            
+            console.log(item)
+    
+            inv.push(item)
+    
+            nowPress += item.action
+    
+            bannerAmount += 1
+            bannerAmountText.innerText = bannerAmount
+    
+            popUp.classList.remove('close')
+            banner.classList.add('close')
+            
+            // alert(`test! ${i}`)
+
+            itemNameText.innerText = item.name
+            itemRarityText.innerText = item.rarity
+            itemActionText.innerText = item.text
         }
-
-        if (item.rarity == 5) {
-            bannerBeginnerAmount = 0
-        }
-
-        inv.push(item)
-
-        nowPress += item.action
-
-        bannerBeginnerAmount += 1
-        bannerBeginnerAmountText.innerText = bannerBeginnerAmount
-
-        popUp.classList.remove('close')
-        banner.classList.add('close')
-
-        itemNameText.innerText = item.name
-        itemRarityText.innerText = item.rarity
-        itemActionText.innerText = item.action
 
         saveAllitem()
     } else {
@@ -143,16 +181,48 @@ function onX1() {
     }
 }
 
+function onX1() {
+    // if (clickAmount >= 10) {
+    //     warnMsg.innerText = ''
+
+    //     clickAmount -= 10
+        
+    //     let item;
+
+    //     if (bannerBeginnerAmount < 50) {
+    //         item = masBeginner[Math.floor(Math.random() * masBeginner.length )]
+    //     }
+
+    //     if (item.rarity == 5) {
+    //         bannerBeginnerAmount = 0
+    //     }
+        
+    //     console.log(item)
+
+    //     inv.push(item)
+
+    //     nowPress += item.action
+
+    //     bannerBeginnerAmount += 1
+    //     bannerBeginnerAmountText.innerText = bannerBeginnerAmount
+
+    //     popUp.classList.remove('close')
+    //     banner.classList.add('close')
+
+    //     itemNameText.innerText = item.name
+    //     itemRarityText.innerText = item.rarity
+    //     itemActionText.innerText = item.text
+
+    //     saveAllitem()
+    // } else {
+    //     warnMsg.innerText = "Нехватка кликов!"
+    // }
+    clickOnXBtn(1, 10, bannerBeginnerAmount, masBeginner, bannerBeginnerAmountText)
+
+}
+
 function onX10() {
-    if (clickAmount >= 100) {
-        clickAmount -= 100
-
-        // 
-
-        saveAllitem()
-    } else {
-
-    }
+    clickOnXBtn(10, 100, bannerBeginnerAmount, masBeginner, bannerBeginnerAmountText)
 }
 
 function autoClick() {

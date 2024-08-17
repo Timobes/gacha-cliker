@@ -21,7 +21,7 @@
             <div class="pop-up">
                 <p class="item-name"><span id="item-name"></span></p>
                 <p class="item-rarity"><span id="item-rarity"></span> звёзд</p>
-                <p class="item-action">+<span id="item-action"></span> к клику / автоклику</p>
+                <p class="item-action">+<span id="item-action"></span></p>
                 <button class="item-next" onclick="itemNext()">Продолжить</button>
             </div>
         </div>
@@ -31,6 +31,20 @@
             <div class="banner">
                 <div class="banner-text">
                     <p class="banner-name">Крутки кликов</p>
+                    <div class="banner-amount">Откручено <span id="banner-amount"></span> из 50</div>
+                    <div class="warn-msg" id="warn-msg"></div>
+
+                </div>
+                
+                <div class="b-banner-btn">
+                    <div class="banner-btn-x1" id="banner-btn-x1" onclick="onX1()">Крутить x1 (10 кликов)</div>
+                    <div class="banner-btn-x10" id="banner-btn-x10" onclick="onX10()">Крутить x10 (100 кликов)</div>
+                </div>
+            </div>
+
+            <div class="banner">
+                <div class="banner-text">
+                    <p class="banner-name">Крутки авто кликов</p>
                     <div class="banner-amount">Откручено <span id="banner-amount"></span> из 50</div>
                     <div class="warn-msg" id="warn-msg"></div>
 
